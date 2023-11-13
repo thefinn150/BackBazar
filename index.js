@@ -1,32 +1,54 @@
 const express = require('express');
-
 const app = express();
 
 app.use(express.json());
 
-const students = [
-    {
-        id: 1, name:"yo"
-    },
-];
+const products = require('./products.json');
 
 app.get('/', (req, res) => {
     res.send('Node js api');
 });
 
-app.get('/api/info', (req, res) =>
-{
-    res.send(students);
+// Obtener todos los productos
+app.get('/api/items', (req, res) => {
+    res.send(products);
+});
+
+// Buscar productos por parámetros (por ejemplo, /api/products?brand=Apple)
+app.get('/api/items/q', (req, res) => {
+    const { filter } = req.query;
+
+    if (!filter) {
+        return res.status(400).send('Se requiere un parámetro "filter" para la búsqueda.');
+    }
+
+    // Filtramos por cualquier campo
+    const productosFiltrados = products.products.filter(product => {
+        return Object.values(product).some(value => {
+            if (typeof value === 'string' &&  value.toLowerCase().includes(filter.toLowerCase())) {
+                return true;
+            }
+            return false;
+        });
+    });
+
+    // Devolvemos la lista filtrada y la cantidad encontrada
+    res.send({ productos: productosFiltrados, total: productosFiltrados.length });
 });
 
 
-app.get('/api/info/:id', (req, res) =>
-{
-   const student = students.find(c => c.id === parseInt(req.params.id));
-   if (!student) return res.status(404).send('info no encontrada');
-   else res.send(student);
-});
 
+// Obtener un producto por ID
+app.get('/api/item/:id', (req, res) => {
+    const productId = parseInt(req.params.id);
+    const product = products.products.find(product => product.id === productId);
+
+    if (!product) {
+        return res.status(404).send('Producto no encontrado');
+    }
+
+    res.send(product);
+});
 
 const port = process.env.port || 3000;
 app.listen(port, () => console.log(`Escuchando en puerto ${port}...`));
