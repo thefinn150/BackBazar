@@ -3,6 +3,21 @@ const app = express();
 
 app.use(express.json());
 
+
+const cors = require('cors');
+
+
+// Configura CORS para permitir solo solicitudes desde http://127.0.0.1:5173
+app.use(cors({
+  origin: 'http://127.0.0.1:5173',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+}));
+
+
+
+
+
 const products = require('./products.json');
 
 app.get('/', (req, res) => {
