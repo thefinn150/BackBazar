@@ -8,7 +8,7 @@ const cors = require('cors');
 
 
 app.use(cors({
-  origin: 'https://bazarapputl.netlify.app/',
+  origin: 'https://bazarapputl.netlify.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 }));
