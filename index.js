@@ -6,21 +6,16 @@ app.use(express.json());
 
 const cors = require('cors');
 
-
-app.use(cors({
-  origin: 'https://bazarapputl.netlify.app',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-}));
-
-http://localhost:5173/
-
-app.use(cors({
-  origin: 'http://localhost:5173/',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-}));
-
+const allowedOrigins = [
+    'https://bazarapputl.netlify.app',
+    'http://localhost:5173'
+  ];
+  
+  app.use(cors({
+    origin: allowedOrigins,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  }));
 
 
 const products = require('./products.json');
