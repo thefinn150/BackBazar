@@ -13,7 +13,13 @@ app.use(cors({
   credentials: true,
 }));
 
+http://localhost:5173/
 
+app.use(cors({
+  origin: 'http://localhost:5173/',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+}));
 
 
 
